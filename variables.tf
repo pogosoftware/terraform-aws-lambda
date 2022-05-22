@@ -9,7 +9,7 @@ variable "create_lambda_function" {
 
 variable "lambda_function_name" {
   default     = null
-  description = "Required if `create_lambda_function` is set to `true`. Unique name for your Lambda Function"
+  description = "Required if `create_lambda_function` or `create_lambda_permission` or `create_lambda_alias` is set to `true`. Unique name for your Lambda Function"
   type        = string
 }
 
@@ -198,21 +198,16 @@ variable "create_lambda_permission" {
   description = "Determinate to create `lambda_permission` resources or not"
   type        = bool
 }
+
 variable "lambda_permission_action" {
   default     = null
-  description = "The AWS Lambda action you want to allow in this statement"
-  type        = string
-}
-
-variable "lambda_permission_function_name" {
-  default     = null
-  description = "Name of the Lambda function whose resource policy you are updating"
+  description = "Required if `create_lambda_permission` is set to `true`. The AWS Lambda action you want to allow in this statement"
   type        = string
 }
 
 variable "lambda_permission_principal" {
   default     = null
-  description = "The principal who is getting this permission e.g., `s3.amazonaws.com`, an AWS account ID, or any valid AWS service principal such as `events.amazonaws.com` or `sns.amazonaws.com`"
+  description = "Required if `create_lambda_permission` is set to `true`. The principal who is getting this permission e.g., `s3.amazonaws.com`, an AWS account ID, or any valid AWS service principal such as `events.amazonaws.com` or `sns.amazonaws.com`"
   type        = string
 }
 
@@ -262,4 +257,39 @@ variable "lambda_permission_principal_org_id" {
   default     = null
   description = "The identifier for your organization in AWS Organizations. Use this to grant permissions to all the AWS accounts under this organization"
   type        = string
+}
+
+##########################################################################
+### lambda_alias
+##########################################################################
+variable "create_lambda_alias" {
+  default     = false
+  description = "Determinate to create `lambda_alias` resources or not"
+  type        = bool
+}
+
+variable "lambda_alias_name" {
+  default     = null
+  description = "Required if `create_lambda_alias` is set to `true`. Name for the alias you are creating"
+  type        = string
+}
+
+variable "lambda_alias_function_version" {
+  default     = null
+  description = "Required if `create_lambda_alias` is set to `true`. Lambda function version for which you are creating the alias"
+  type        = string
+}
+
+variable "lambda_alias_description" {
+  default     = null
+  description = "Description of the alias"
+  type        = string
+}
+
+variable "lambda_alias_routing_config" {
+  default     = null
+  description = " The Lambda alias' route configuration settings"
+  type = object({
+    additional_version_weights = map(string)
+  })
 }
