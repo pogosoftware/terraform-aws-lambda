@@ -32,3 +32,21 @@ module "lambda_function" {
   tracing_config                 = var.lambda_function_tracing_config
   vpc_config                     = var.lambda_function_vpc_config
 }
+module "lambda_permission" {
+  source = "./modules/lambda_permission"
+
+  count = var.create_lambda_permission ? 1 : 0
+
+  action        = var.lambda_permission_action
+  function_name = local.lambda_permission_function_name
+  principal     = var.lambda_permission_principal
+
+  event_source_token     = var.lambda_permission_event_source_token
+  function_url_auth_type = var.lambda_permission_function_url_auth_type
+  qualifier              = var.lambda_permission_qualifier
+  source_account         = var.lambda_permission_source_account
+  source_arn             = var.lambda_permission_source_arn
+  statement_id           = local.lambda_permission_statement_id
+  statement_id_prefix    = local.lambda_permission_statement_id_prefix
+  principal_org_id       = var.lambda_permission_principal_org_id
+}
