@@ -32,13 +32,14 @@ module "lambda_function" {
   tracing_config                 = var.lambda_function_tracing_config
   vpc_config                     = var.lambda_function_vpc_config
 }
+
 module "lambda_permission" {
   source = "./modules/lambda_permission"
 
   count = var.create_lambda_permission ? 1 : 0
 
   action        = var.lambda_permission_action
-  function_name = local.lambda_permission_function_name
+  function_name = local.lambda_function_name
   principal     = var.lambda_permission_principal
 
   event_source_token     = var.lambda_permission_event_source_token
@@ -49,4 +50,17 @@ module "lambda_permission" {
   statement_id           = local.lambda_permission_statement_id
   statement_id_prefix    = local.lambda_permission_statement_id_prefix
   principal_org_id       = var.lambda_permission_principal_org_id
+}
+
+module "lambda_alias" {
+  source = "./modules/lambda_alias"
+
+  count = var.create_lambda_alias ? 1 : 0
+
+  name             = var.lambda_alias_name
+  function_name    = local.lambda_function_name
+  function_version = var.lambda_alias_function_version
+
+  description    = var.lambda_alias_description
+  routing_config = var.lambda_alias_routing_config
 }

@@ -15,6 +15,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_lambda_alias"></a> [lambda\_alias](#module\_lambda\_alias) | ./modules/lambda_alias | n/a |
 | <a name="module_lambda_function"></a> [lambda\_function](#module\_lambda\_function) | ./modules/lambda_function | n/a |
 | <a name="module_lambda_permission"></a> [lambda\_permission](#module\_lambda\_permission) | ./modules/lambda_permission | n/a |
 
@@ -26,8 +27,13 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_create_lambda_alias"></a> [create\_lambda\_alias](#input\_create\_lambda\_alias) | Determinate to create `lambda_alias` resources or not | `bool` | `false` | no |
 | <a name="input_create_lambda_function"></a> [create\_lambda\_function](#input\_create\_lambda\_function) | Determinate to create `lambda_function` resources or not | `bool` | `true` | no |
 | <a name="input_create_lambda_permission"></a> [create\_lambda\_permission](#input\_create\_lambda\_permission) | Determinate to create `lambda_permission` resources or not | `bool` | `false` | no |
+| <a name="input_lambda_alias_description"></a> [lambda\_alias\_description](#input\_lambda\_alias\_description) | Description of the alias | `string` | `null` | no |
+| <a name="input_lambda_alias_function_version"></a> [lambda\_alias\_function\_version](#input\_lambda\_alias\_function\_version) | Required if `create_lambda_alias` is set to `true`. Lambda function version for which you are creating the alias | `string` | `null` | no |
+| <a name="input_lambda_alias_name"></a> [lambda\_alias\_name](#input\_lambda\_alias\_name) | Required if `create_lambda_alias` is set to `true`. Name for the alias you are creating | `string` | `null` | no |
+| <a name="input_lambda_alias_routing_config"></a> [lambda\_alias\_routing\_config](#input\_lambda\_alias\_routing\_config) | The Lambda alias' route configuration settings | <pre>object({<br>    additional_version_weights = map(string)<br>  })</pre> | `null` | no |
 | <a name="input_lambda_function_architectures"></a> [lambda\_function\_architectures](#input\_lambda\_function\_architectures) | Instruction set architecture for your Lambda function. Valid values are ["x86\_64"] and ["arm64"]. Default is ["x86\_64"] | `list(string)` | <pre>[<br>  "x86_64"<br>]</pre> | no |
 | <a name="input_lambda_function_code_signing_config_arn"></a> [lambda\_function\_code\_signing\_config\_arn](#input\_lambda\_function\_code\_signing\_config\_arn) | To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function | `string` | `null` | no |
 | <a name="input_lambda_function_dead_letter_config"></a> [lambda\_function\_dead\_letter\_config](#input\_lambda\_function\_dead\_letter\_config) | Dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing | <pre>object({<br>    target_arn = string<br>  })</pre> | `null` | no |
@@ -42,7 +48,7 @@ No resources.
 | <a name="input_lambda_function_kms_key_arn"></a> [lambda\_function\_kms\_key\_arn](#input\_lambda\_function\_kms\_key\_arn) | Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key that is used to encrypt environment variables. If this configuration is not provided when environment variables are in use, AWS Lambda uses a default service key. If this configuration is provided when environment variables are not in use, the AWS Lambda API does not save this configuration and Terraform will show a perpetual difference of adding the key. To fix the perpetual difference, remove this configuration | `string` | `null` | no |
 | <a name="input_lambda_function_layers"></a> [lambda\_function\_layers](#input\_lambda\_function\_layers) | List of Lambda Layer Version ARNs (maximum of 5) to attach to your Lambda Function | `list(string)` | `null` | no |
 | <a name="input_lambda_function_memory_size"></a> [lambda\_function\_memory\_size](#input\_lambda\_function\_memory\_size) | Amount of memory in MB your Lambda Function can use at runtime. Defaults to `128` | `number` | `128` | no |
-| <a name="input_lambda_function_name"></a> [lambda\_function\_name](#input\_lambda\_function\_name) | Required if `create_lambda_function` is set to `true`. Unique name for your Lambda Function | `string` | `null` | no |
+| <a name="input_lambda_function_name"></a> [lambda\_function\_name](#input\_lambda\_function\_name) | Required if `create_lambda_function` or `create_lambda_permission` or `create_lambda_alias` is set to `true`. Unique name for your Lambda Function | `string` | `null` | no |
 | <a name="input_lambda_function_package_type"></a> [lambda\_function\_package\_type](#input\_lambda\_function\_package\_type) | Lambda deployment package type. Valid values are `Zip` and `Image`. Defaults to `Zip` | `string` | `"Zip"` | no |
 | <a name="input_lambda_function_publish"></a> [lambda\_function\_publish](#input\_lambda\_function\_publish) | Whether to publish creation/change as new Lambda Function Version. Defaults to `false` | `bool` | `false` | no |
 | <a name="input_lambda_function_reserved_concurrent_executions"></a> [lambda\_function\_reserved\_concurrent\_executions](#input\_lambda\_function\_reserved\_concurrent\_executions) | Amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations. Defaults to Unreserved Concurrency Limits -1 | `number` | `-1` | no |
@@ -56,11 +62,10 @@ No resources.
 | <a name="input_lambda_function_timeout"></a> [lambda\_function\_timeout](#input\_lambda\_function\_timeout) | Amount of time your Lambda Function has to run in seconds. Defaults to `3` | `number` | `3` | no |
 | <a name="input_lambda_function_tracing_config"></a> [lambda\_function\_tracing\_config](#input\_lambda\_function\_tracing\_config) | Whether to to sample and trace a subset of incoming requests with AWS X-Ray | <pre>object({<br>    mode = string<br>  })</pre> | `null` | no |
 | <a name="input_lambda_function_vpc_config"></a> [lambda\_function\_vpc\_config](#input\_lambda\_function\_vpc\_config) | For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC | <pre>object({<br>    security_group_ids = list(string)<br>    subnet_ids         = list(string)<br>  })</pre> | `null` | no |
-| <a name="input_lambda_permission_action"></a> [lambda\_permission\_action](#input\_lambda\_permission\_action) | The AWS Lambda action you want to allow in this statement | `string` | `null` | no |
+| <a name="input_lambda_permission_action"></a> [lambda\_permission\_action](#input\_lambda\_permission\_action) | Required if `create_lambda_permission` is set to `true`. The AWS Lambda action you want to allow in this statement | `string` | `null` | no |
 | <a name="input_lambda_permission_event_source_token"></a> [lambda\_permission\_event\_source\_token](#input\_lambda\_permission\_event\_source\_token) | The Event Source Token to validate | `string` | `null` | no |
-| <a name="input_lambda_permission_function_name"></a> [lambda\_permission\_function\_name](#input\_lambda\_permission\_function\_name) | Name of the Lambda function whose resource policy you are updating | `string` | `null` | no |
 | <a name="input_lambda_permission_function_url_auth_type"></a> [lambda\_permission\_function\_url\_auth\_type](#input\_lambda\_permission\_function\_url\_auth\_type) | Lambda Function URLs authentication type. Valid values are: `AWS_IAM` or `NONE` | `string` | `null` | no |
-| <a name="input_lambda_permission_principal"></a> [lambda\_permission\_principal](#input\_lambda\_permission\_principal) | The principal who is getting this permission e.g., `s3.amazonaws.com`, an AWS account ID, or any valid AWS service principal such as `events.amazonaws.com` or `sns.amazonaws.com` | `string` | `null` | no |
+| <a name="input_lambda_permission_principal"></a> [lambda\_permission\_principal](#input\_lambda\_permission\_principal) | Required if `create_lambda_permission` is set to `true`. The principal who is getting this permission e.g., `s3.amazonaws.com`, an AWS account ID, or any valid AWS service principal such as `events.amazonaws.com` or `sns.amazonaws.com` | `string` | `null` | no |
 | <a name="input_lambda_permission_principal_org_id"></a> [lambda\_permission\_principal\_org\_id](#input\_lambda\_permission\_principal\_org\_id) | The identifier for your organization in AWS Organizations. Use this to grant permissions to all the AWS accounts under this organization | `string` | `null` | no |
 | <a name="input_lambda_permission_qualifier"></a> [lambda\_permission\_qualifier](#input\_lambda\_permission\_qualifier) | Query parameter to specify function version or alias name. The permission will then apply to the specific qualified ARN e.g., `arn:aws:lambda:aws-region:acct-id:function:function-name:2` | `string` | `null` | no |
 | <a name="input_lambda_permission_source_account"></a> [lambda\_permission\_source\_account](#input\_lambda\_permission\_source\_account) | This parameter is used for S3 and SES. The AWS account ID (without a hyphen) of the source owner | `string` | `null` | no |
@@ -72,6 +77,9 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_lambda_alias_arn"></a> [lambda\_alias\_arn](#output\_lambda\_alias\_arn) | The Amazon Resource Name (ARN) identifying your Lambda function alias |
+| <a name="output_lambda_alias_invoke_arn"></a> [lambda\_alias\_invoke\_arn](#output\_lambda\_alias\_invoke\_arn) | The ARN to be used for invoking Lambda Function from API Gateway - to be used in `aws_api_gateway_integration`'s uri |
+| <a name="output_lambda_alias_name"></a> [lambda\_alias\_name](#output\_lambda\_alias\_name) | The name of alias |
 | <a name="output_lambda_function_arn"></a> [lambda\_function\_arn](#output\_lambda\_function\_arn) | Amazon Resource Name (ARN) identifying your Lambda Function |
 | <a name="output_lambda_function_invoke_arn"></a> [lambda\_function\_invoke\_arn](#output\_lambda\_function\_invoke\_arn) | ARN to be used for invoking Lambda Function from API Gateway - to be used in aws\_api\_gateway\_integration's uri |
 | <a name="output_lambda_function_qualified_arn"></a> [lambda\_function\_qualified\_arn](#output\_lambda\_function\_qualified\_arn) | ARN identifying your Lambda Function Version |
