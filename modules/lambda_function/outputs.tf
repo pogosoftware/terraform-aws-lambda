@@ -3,6 +3,11 @@ output "arn" {
   value       = aws_lambda_function.this.arn
 }
 
+output "function_name" {
+  description = "The Lambda Function name"
+  value       = aws_lambda_function.this.function_name
+}
+
 output "invoke_arn" {
   description = "ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri"
   value       = aws_lambda_function.this.invoke_arn

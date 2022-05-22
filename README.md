@@ -16,6 +16,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_lambda_function"></a> [lambda\_function](#module\_lambda\_function) | ./modules/lambda_function | n/a |
+| <a name="module_lambda_permission"></a> [lambda\_permission](#module\_lambda\_permission) | ./modules/lambda_permission | n/a |
 
 ## Resources
 
@@ -26,6 +27,7 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_lambda_function"></a> [create\_lambda\_function](#input\_create\_lambda\_function) | Determinate to create `lambda_function` resources or not | `bool` | `true` | no |
+| <a name="input_create_lambda_permission"></a> [create\_lambda\_permission](#input\_create\_lambda\_permission) | Determinate to create `lambda_permission` resources or not | `bool` | `false` | no |
 | <a name="input_lambda_function_architectures"></a> [lambda\_function\_architectures](#input\_lambda\_function\_architectures) | Instruction set architecture for your Lambda function. Valid values are ["x86\_64"] and ["arm64"]. Default is ["x86\_64"] | `list(string)` | <pre>[<br>  "x86_64"<br>]</pre> | no |
 | <a name="input_lambda_function_code_signing_config_arn"></a> [lambda\_function\_code\_signing\_config\_arn](#input\_lambda\_function\_code\_signing\_config\_arn) | To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function | `string` | `null` | no |
 | <a name="input_lambda_function_dead_letter_config"></a> [lambda\_function\_dead\_letter\_config](#input\_lambda\_function\_dead\_letter\_config) | Dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing | <pre>object({<br>    target_arn = string<br>  })</pre> | `null` | no |
@@ -54,6 +56,17 @@ No resources.
 | <a name="input_lambda_function_timeout"></a> [lambda\_function\_timeout](#input\_lambda\_function\_timeout) | Amount of time your Lambda Function has to run in seconds. Defaults to `3` | `number` | `3` | no |
 | <a name="input_lambda_function_tracing_config"></a> [lambda\_function\_tracing\_config](#input\_lambda\_function\_tracing\_config) | Whether to to sample and trace a subset of incoming requests with AWS X-Ray | <pre>object({<br>    mode = string<br>  })</pre> | `null` | no |
 | <a name="input_lambda_function_vpc_config"></a> [lambda\_function\_vpc\_config](#input\_lambda\_function\_vpc\_config) | For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC | <pre>object({<br>    security_group_ids = list(string)<br>    subnet_ids         = list(string)<br>  })</pre> | `null` | no |
+| <a name="input_lambda_permission_action"></a> [lambda\_permission\_action](#input\_lambda\_permission\_action) | The AWS Lambda action you want to allow in this statement | `string` | `null` | no |
+| <a name="input_lambda_permission_event_source_token"></a> [lambda\_permission\_event\_source\_token](#input\_lambda\_permission\_event\_source\_token) | The Event Source Token to validate | `string` | `null` | no |
+| <a name="input_lambda_permission_function_name"></a> [lambda\_permission\_function\_name](#input\_lambda\_permission\_function\_name) | Name of the Lambda function whose resource policy you are updating | `string` | `null` | no |
+| <a name="input_lambda_permission_function_url_auth_type"></a> [lambda\_permission\_function\_url\_auth\_type](#input\_lambda\_permission\_function\_url\_auth\_type) | Lambda Function URLs authentication type. Valid values are: `AWS_IAM` or `NONE` | `string` | `null` | no |
+| <a name="input_lambda_permission_principal"></a> [lambda\_permission\_principal](#input\_lambda\_permission\_principal) | The principal who is getting this permission e.g., `s3.amazonaws.com`, an AWS account ID, or any valid AWS service principal such as `events.amazonaws.com` or `sns.amazonaws.com` | `string` | `null` | no |
+| <a name="input_lambda_permission_principal_org_id"></a> [lambda\_permission\_principal\_org\_id](#input\_lambda\_permission\_principal\_org\_id) | The identifier for your organization in AWS Organizations. Use this to grant permissions to all the AWS accounts under this organization | `string` | `null` | no |
+| <a name="input_lambda_permission_qualifier"></a> [lambda\_permission\_qualifier](#input\_lambda\_permission\_qualifier) | Query parameter to specify function version or alias name. The permission will then apply to the specific qualified ARN e.g., `arn:aws:lambda:aws-region:acct-id:function:function-name:2` | `string` | `null` | no |
+| <a name="input_lambda_permission_source_account"></a> [lambda\_permission\_source\_account](#input\_lambda\_permission\_source\_account) | This parameter is used for S3 and SES. The AWS account ID (without a hyphen) of the source owner | `string` | `null` | no |
+| <a name="input_lambda_permission_source_arn"></a> [lambda\_permission\_source\_arn](#input\_lambda\_permission\_source\_arn) | When the principal is an AWS service, the ARN of the specific resource within that service to grant permission to | `string` | `null` | no |
+| <a name="input_lambda_permission_statement_id"></a> [lambda\_permission\_statement\_id](#input\_lambda\_permission\_statement\_id) | A unique statement identifier. By default generated by Terraform | `string` | `null` | no |
+| <a name="input_lambda_permission_use_statement_id_prefix"></a> [lambda\_permission\_use\_statement\_id\_prefix](#input\_lambda\_permission\_use\_statement\_id\_prefix) | A statement identifier prefix. Terraform will generate a unique suffix. Conflicts with `statement_id` | `string` | `false` | no |
 
 ## Outputs
 
