@@ -49,6 +49,31 @@ module "cloudwatch_event_rule" {
   tags                = var.cloudwatch_event_rule_tags
 }
 
+module "cloudwatch_event_target" {
+  source = "./modules/cloudwatch_event_target"
+
+  count = var.create_cloudwatch_event_target ? 1 : 0
+
+  rule = local.cloudwatch_event_target_rule
+  arn  = local.cloudwatch_event_target_arn
+
+  event_bus_name      = var.cloudwatch_event_target_event_bus_name
+  target_id           = var.cloudwatch_event_target_id
+  input               = var.cloudwatch_event_target_input
+  input_path          = var.cloudwatch_event_target_input_path
+  role_arn            = var.cloudwatch_event_target_role_arn
+  run_command_targets = var.cloudwatch_event_target_run_command_targets
+  ecs_target          = var.cloudwatch_event_target_ecs_target
+  batch_target        = var.cloudwatch_event_target_batch_target
+  kinesis_target      = var.cloudwatch_event_target_kinesis_target
+  redshift_target     = var.cloudwatch_event_target_redshift_target
+  sqs_target          = var.cloudwatch_event_target_sqs_target
+  http_target         = var.cloudwatch_event_target_http_target
+  input_transformer   = var.cloudwatch_event_target_input_transformer
+  retry_policy        = var.cloudwatch_event_target_retry_policy
+  dead_letter_config  = var.cloudwatch_event_target_dead_letter_config
+}
+
 module "lambda_permission" {
   source = "./modules/lambda_permission"
 
