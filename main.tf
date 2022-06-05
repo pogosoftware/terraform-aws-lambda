@@ -33,6 +33,22 @@ module "lambda_function" {
   vpc_config                     = var.lambda_function_vpc_config
 }
 
+module "cloudwatch_event_rule" {
+  source = "./modules/cloudwatch_event_rule"
+
+  count = var.create_cloudwatch_event_rule ? 1 : 0
+
+  name                = local.cloudwatch_event_rule_name
+  name_prefix         = local.cloudwatch_event_rule_name_prefix
+  schedule_expression = var.cloudwatch_event_rule_schedule_expression
+  event_bus_name      = var.cloudwatch_event_rule_event_bus_name
+  event_pattern       = var.cloudwatch_event_rule_event_pattern
+  description         = var.cloudwatch_event_rule_description
+  role_arn            = var.cloudwatch_event_rule_role_arn
+  is_enabled          = var.cloudwatch_event_rule_is_enabled
+  tags                = var.cloudwatch_event_rule_tags
+}
+
 module "lambda_permission" {
   source = "./modules/lambda_permission"
 
@@ -46,7 +62,7 @@ module "lambda_permission" {
   function_url_auth_type = var.lambda_permission_function_url_auth_type
   qualifier              = var.lambda_permission_qualifier
   source_account         = var.lambda_permission_source_account
-  source_arn             = var.lambda_permission_source_arn
+  source_arn             = local.lambda_permission_source_arn
   statement_id           = local.lambda_permission_statement_id
   statement_id_prefix    = local.lambda_permission_statement_id_prefix
   principal_org_id       = var.lambda_permission_principal_org_id
