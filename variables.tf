@@ -191,6 +191,69 @@ variable "lambda_function_vpc_config" {
 }
 
 ##########################################################################
+### cloudwatch_event_rule
+##########################################################################
+variable "create_cloudwatch_event_rule" {
+  default     = false
+  description = "Determinate to create `cloudwatch_event_rule` resource or not"
+  type        = bool
+}
+
+variable "cloudwatch_event_rule_name" {
+  default     = null
+  description = "The name of the rule. If omitted, Terraform will assign a random, unique name. Conflicts with `name_prefix`"
+  type        = string
+}
+
+variable "use_cloudwatch_event_rule_name_prefix" {
+  default     = false
+  description = "Determinate to use `cloudwatch_event_rule_name_prefix` or not"
+  type        = bool
+}
+
+variable "cloudwatch_event_rule_schedule_expression" {
+  default     = null
+  description = "The scheduling expression"
+  type        = string
+}
+
+variable "cloudwatch_event_rule_event_bus_name" {
+  default     = null
+  description = "The event bus to associate with this rule. If you omit this, the `default` event bus is used"
+  type        = string
+}
+
+variable "cloudwatch_event_rule_event_pattern" {
+  default     = null
+  description = "The event pattern described a JSON object. At least one of `schedule_expression` or `event_pattern` is required"
+  type        = string
+}
+
+variable "cloudwatch_event_rule_description" {
+  default     = null
+  description = "The description of the rule"
+  type        = string
+}
+
+variable "cloudwatch_event_rule_role_arn" {
+  default     = null
+  description = "The Amazon Resource Name (ARN) associated with the role that is used for target invocation"
+  type        = string
+}
+
+variable "cloudwatch_event_rule_is_enabled" {
+  default     = true
+  description = "Whether the rule should be enabled. Defaults to `true`"
+  type        = bool
+}
+
+variable "cloudwatch_event_rule_tags" {
+  default     = null
+  description = "A map of tags to assign to the resource"
+  type        = map(string)
+}
+
+##########################################################################
 ### lambda_permission
 ##########################################################################
 variable "create_lambda_permission" {
