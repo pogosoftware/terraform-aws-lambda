@@ -33,6 +33,47 @@ module "lambda_function" {
   vpc_config                     = var.lambda_function_vpc_config
 }
 
+module "cloudwatch_event_rule" {
+  source = "./modules/cloudwatch_event_rule"
+
+  count = var.create_cloudwatch_event_rule ? 1 : 0
+
+  name                = local.cloudwatch_event_rule_name
+  name_prefix         = local.cloudwatch_event_rule_name_prefix
+  schedule_expression = var.cloudwatch_event_rule_schedule_expression
+  event_bus_name      = var.cloudwatch_event_rule_event_bus_name
+  event_pattern       = var.cloudwatch_event_rule_event_pattern
+  description         = var.cloudwatch_event_rule_description
+  role_arn            = var.cloudwatch_event_rule_role_arn
+  is_enabled          = var.cloudwatch_event_rule_is_enabled
+  tags                = var.cloudwatch_event_rule_tags
+}
+
+module "cloudwatch_event_target" {
+  source = "./modules/cloudwatch_event_target"
+
+  count = var.create_cloudwatch_event_target ? 1 : 0
+
+  rule = local.cloudwatch_event_target_rule
+  arn  = local.cloudwatch_event_target_arn
+
+  event_bus_name      = var.cloudwatch_event_target_event_bus_name
+  target_id           = var.cloudwatch_event_target_id
+  input               = var.cloudwatch_event_target_input
+  input_path          = var.cloudwatch_event_target_input_path
+  role_arn            = var.cloudwatch_event_target_role_arn
+  run_command_targets = var.cloudwatch_event_target_run_command_targets
+  ecs_target          = var.cloudwatch_event_target_ecs_target
+  batch_target        = var.cloudwatch_event_target_batch_target
+  kinesis_target      = var.cloudwatch_event_target_kinesis_target
+  redshift_target     = var.cloudwatch_event_target_redshift_target
+  sqs_target          = var.cloudwatch_event_target_sqs_target
+  http_target         = var.cloudwatch_event_target_http_target
+  input_transformer   = var.cloudwatch_event_target_input_transformer
+  retry_policy        = var.cloudwatch_event_target_retry_policy
+  dead_letter_config  = var.cloudwatch_event_target_dead_letter_config
+}
+
 module "lambda_permission" {
   source = "./modules/lambda_permission"
 
@@ -46,7 +87,7 @@ module "lambda_permission" {
   function_url_auth_type = var.lambda_permission_function_url_auth_type
   qualifier              = var.lambda_permission_qualifier
   source_account         = var.lambda_permission_source_account
-  source_arn             = var.lambda_permission_source_arn
+  source_arn             = local.lambda_permission_source_arn
   statement_id           = local.lambda_permission_statement_id
   statement_id_prefix    = local.lambda_permission_statement_id_prefix
   principal_org_id       = var.lambda_permission_principal_org_id
