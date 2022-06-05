@@ -58,3 +58,16 @@ output "lambda_alias_invoke_arn" {
   description = "The ARN to be used for invoking Lambda Function from API Gateway - to be used in `aws_api_gateway_integration`'s uri"
   value       = try(module.lambda_alias[0].invoke_arn, "")
 }
+
+##########################################################################
+### cloudwatch_event_rule
+##########################################################################
+output "cloudwatch_event_rule_id" {
+  description = "The name of the rule"
+  value       = try(module.cloudwatch_event_rule[0].id, "")
+}
+
+output "cloudwatch_event_rule_arn" {
+  description = "The Amazon Resource Name (ARN) of the rule"
+  value       = try(module.cloudwatch_event_rule[0].arn, "")
+}
