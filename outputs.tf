@@ -6,6 +6,11 @@ output "lambda_function_arn" {
   value       = try(module.lambda_function[0].arn, "")
 }
 
+output "lambda_function_name" {
+  description = "Amazon Resource Name (ARN) identifying your Lambda Function"
+  value       = try(module.lambda_function[0].function_name, "")
+}
+
 output "lambda_function_invoke_arn" {
   description = "ARN to be used for invoking Lambda Function from API Gateway - to be used in aws_api_gateway_integration's uri"
   value       = try(module.lambda_function[0].invoke_arn, "")
